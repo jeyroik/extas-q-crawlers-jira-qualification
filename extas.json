@@ -15,5 +15,13 @@
       "class": "extas\\components\\plugins\\quality\\crawlers\\CrawlerJiraUserQualification",
       "stage": "extas.quality.crawl"
     }
+  ],
+  "env": [
+    {
+      "title": "Quality. Jira qualififcation config",
+      "description": "Path to jira qualififcation configuration file for the quality crawler",
+      "name": "EXTAS__Q_JIRA_QUALIFIFCATION_PATH",
+      "value": ""
+    }
   ]
 }
