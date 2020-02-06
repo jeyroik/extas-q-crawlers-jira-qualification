@@ -59,7 +59,6 @@ class CrawlerJiraUserQualification extends Crawler
     {
         try {
             $jiraClient = new JiraClient();
-            $this->setProjectKeys($jiraClient);
             $keys = [];
             $bvs = [];
             $foundStories = 0;
