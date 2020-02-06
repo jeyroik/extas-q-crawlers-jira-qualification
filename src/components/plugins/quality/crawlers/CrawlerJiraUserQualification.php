@@ -112,10 +112,11 @@ class CrawlerJiraUserQualification extends Crawler
                 JiraSearchJQL::CONDITION__LOWER,
                 JiraSearchJQL::DATE__END_OF_MONTH,
                 -1
-            )
-            ->returnFields([JiraSearchJQL::PARAM__ISSUE_LINKS]);
+            );
 
         $this->setProjectKeys($jql);
+
+        $jql->returnFields([JiraSearchJQL::PARAM__ISSUE_LINKS]);
 
         return $jql;
     }
@@ -129,13 +130,13 @@ class CrawlerJiraUserQualification extends Crawler
     protected function getChildrenJql(array $keys): IJiraSearchJQL
     {
         $jql = new JiraSearchJQL();
-        $jql->issueKey($keys)
-            ->returnFields([
-                JiraSearchJQL::PARAM__ISSUE_LINKS,
-                JiraSearchJQL::PARAM__ASSIGNEE,
-                JiraSearchJQL::PARAM__WORK_LOG
-            ]);
+        $jql->issueKey($keys);
         $this->setProjectKeys($jql);
+        $jql->returnFields([
+            JiraSearchJQL::PARAM__ISSUE_LINKS,
+            JiraSearchJQL::PARAM__ASSIGNEE,
+            JiraSearchJQL::PARAM__WORK_LOG
+        ]);
 
         return $jql;
     }
