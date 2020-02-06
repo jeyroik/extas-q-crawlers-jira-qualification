@@ -1,0 +1,15 @@
+{
+  "name": "jeyroik/extas-q-crawlers-jira-qualification",
+  "description": "Qualification jira crawler package for the extas quality",
+  "require": {
+    "guzzlehttp/guzzle": "^6.3",
+    "jeyroik/extas-installer": "*",
+    "jeyroik/extas-q-users": "*",
+    "jeyroik/extas-q-crawlers-jira": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "extas\\": "src/"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "extas/quality-crawlers-jira",
+  "package_classes": [
+    {
+      "class": "extas\\components\\quality\\crawlers\\jira\\qualifications\\indexes\\JiraIssuesIndexRepository",
+      "interface": "extas\\interfaces\\quality\\crawlers\\jira\\qualifications\\indexes\\IJiraIssuesIndexRepository"
+    }
+  ],
+  "plugins": [
+    {
+      "class": "extas\\components\\plugins\\PluginInstallJiraQualificationIssuesIndex",
+      "stage": "extas.install"
+    },
+    {
+      "class": "extas\\components\\plugins\\quality\\crawlers\\CrawlerJiraUserQualification",
+      "stage": "extas.quality.crawl"
+    }
+  ]
+}
