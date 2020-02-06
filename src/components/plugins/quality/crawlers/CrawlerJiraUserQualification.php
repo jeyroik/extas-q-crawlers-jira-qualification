@@ -2,6 +2,7 @@
 namespace extas\components\plugins\quality\crawlers;
 
 use extas\components\quality\crawlers\Crawler;
+use extas\components\quality\crawlers\jira\JiraSearchJQL;
 use extas\components\quality\crawlers\jira\qualifications\indexes\JiraIssuesIndex;
 use extas\components\quality\crawlers\jira\JiraClient;
 use extas\components\quality\crawlers\jira\TJiraConfiguration;
@@ -11,6 +12,7 @@ use extas\interfaces\quality\crawlers\ICrawler;
 use extas\interfaces\quality\crawlers\jira\IJiraClient;
 use extas\interfaces\quality\crawlers\jira\IJiraIssue;
 use extas\interfaces\quality\crawlers\jira\IJiraIssueLink;
+use extas\interfaces\quality\crawlers\jira\IJiraSearchJQL;
 use extas\interfaces\quality\crawlers\jira\qualifications\IJiraQualificationConfiguration as IConfig;
 use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJIraIssuesIndex;
 use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJiraIssuesIndexRepository;
@@ -61,7 +63,7 @@ class CrawlerJiraUserQualification extends Crawler
             $keys = [];
             $bvs = [];
             $foundStories = 0;
-            foreach ($jiraClient->allStories() as $story) {
+            foreach ($jiraClient->allTickets($this->getStoryJql()) as $story) {
                 /**
                  * @var $story IJiraIssue
                  */
@@ -74,7 +76,7 @@ class CrawlerJiraUserQualification extends Crawler
             }
             $assignees = [];
             $tickets = 0;
-            foreach ($jiraClient->allTickets($keys) as $ticket) {
+            foreach ($jiraClient->allTickets($this->getChildrenJql($keys)) as $ticket) {
                 /**
                  * @var $ticket IJiraIssue
                  */
@@ -98,18 +100,60 @@ class CrawlerJiraUserQualification extends Crawler
     }
 
     /**
-     * @param IJiraClient $client
+     * @return IJiraSearchJQL
+     * @throws \Exception
+     */
+    protected function getStoryJql(): IJiraSearchJQL
+    {
+        $jql = new JiraSearchJQL();
+        $jql->issueType([JiraSearchJQL::ISSUE_TYPE__STORY])
+            ->issueLinkType([JiraSearchJQL::LINK_TYPE__PARENT])
+            ->bv(JiraSearchJQL::CONDITION__GREATER, 0)
+            ->updatedDate(
+                JiraSearchJQL::CONDITION__LOWER,
+                JiraSearchJQL::DATE__END_OF_MONTH,
+                -1
+            )
+            ->returnFields([JiraSearchJQL::PARAM__ISSUE_LINKS]);
+
+        $this->setProjectKeys($jql);
+
+        return $jql;
+    }
+
+    /**
+     * @param array $keys
+     *
+     * @return IJiraSearchJQL
+     * @throws \Exception
+     */
+    protected function getChildrenJql(array $keys): IJiraSearchJQL
+    {
+        $jql = new JiraSearchJQL();
+        $jql->issueKey($keys)
+            ->returnFields([
+                JiraSearchJQL::PARAM__ISSUE_LINKS,
+                JiraSearchJQL::PARAM__ASSIGNEE,
+                JiraSearchJQL::PARAM__WORK_LOG
+            ]);
+        $this->setProjectKeys($jql);
+
+        return $jql;
+    }
+
+    /**
+     * @param IJiraSearchJQL $jql
      *
      * @return $this
      * @throws \Exception
      */
-    protected function setProjectKeys(IJiraClient &$client)
+    protected function setProjectKeys(IJiraSearchJQL &$jql)
     {
         $config = $this->cfg();
         if (isset($config[IConfig::FIELD__QUALIFICATION])) {
             $q = $config[IConfig::FIELD__QUALIFICATION];
             if (isset($q[IConfig::FIELD__PROJECTS_KEYS]) && !empty($q[IConfig::FIELD__PROJECTS_KEYS])) {
-                $client->setProjectKeys($q[IConfig::FIELD__PROJECTS_KEYS]);
+                $jql->projectKey($q[IConfig::FIELD__PROJECTS_KEYS]);
             }
         }
 
