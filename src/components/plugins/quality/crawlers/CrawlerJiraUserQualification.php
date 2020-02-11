@@ -204,12 +204,13 @@ class CrawlerJiraUserQualification extends Crawler
         /**
          * @var $repo IJiraIssuesIndexRepository
          */
+        $month = (int) date('Ym');
         $repo = SystemContainer::getItem(IJiraIssuesIndexRepository::class);
-        $index = $repo->one([IJIraIssuesIndex::FIELD__MONTH => date('Ym')]);
+        $index = $repo->one([IJIraIssuesIndex::FIELD__MONTH => $month]);
 
         if (!$index) {
             $index = new JiraIssuesIndex([
-                JiraIssuesIndex::FIELD__MONTH => date('Ym'),
+                JiraIssuesIndex::FIELD__MONTH => $month,
                 JiraIssuesIndex::FIELD__TIMESTAMP => time(),
                 JiraIssuesIndex::FIELD__ISSUES => []
             ]);
