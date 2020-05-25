@@ -34,9 +34,9 @@ class CrawlerJiraUserQualification extends Crawler
     /**
      * @var IJIraIssuesIndex
      */
-    protected $index = null;
-    protected $title = '[Jira] User qualification';
-    protected $description = 'Calculate user qualification index per month.';
+    protected ?IJIraIssuesIndex $index = null;
+    protected string $title = '[Jira] User qualification';
+    protected string $description = 'Calculate user qualification index per month.';
 
     /**
      * CrawlerJira constructor.

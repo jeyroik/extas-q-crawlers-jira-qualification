@@ -12,9 +12,8 @@ use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJiraIssuesInd
  */
 class JiraIssuesIndexRepository extends Repository implements IJiraIssuesIndexRepository
 {
-    protected $itemClass = JiraIssuesIndex::class;
-    protected $name = 'jira_qualification__issues_indexes';
-    protected $pk = JiraIssuesIndex::FIELD__MONTH;
-    protected $scope = 'extas';
-    protected $idAs = '';
+    protected string $itemClass = JiraIssuesIndex::class;
+    protected string $name = 'jira_qualification__issues_indexes';
+    protected string $pk = JiraIssuesIndex::FIELD__MONTH;
+    protected string $scope = 'extas';
 }

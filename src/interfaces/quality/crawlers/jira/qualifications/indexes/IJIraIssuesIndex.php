@@ -12,11 +12,11 @@ use extas\interfaces\quality\crawlers\jira\IJiraIssue;
  */
 interface IJIraIssuesIndex extends IItem
 {
-    const SUBJECT = 'extas.quality.crawler.jira.issues.index';
+    public const SUBJECT = 'extas.quality.crawler.jira.issues.index';
     
-    const FIELD__MONTH = 'month';
-    const FIELD__ISSUES = 'issues';
-    const FIELD__TIMESTAMP = 'timestamp';
+    public const FIELD__MONTH = 'month';
+    public const FIELD__ISSUES = 'issues';
+    public const FIELD__TIMESTAMP = 'timestamp';
 
     /**
      * @return int

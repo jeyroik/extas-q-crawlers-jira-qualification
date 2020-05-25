@@ -12,9 +12,9 @@ use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJiraIssuesInd
  */
 class PluginInstallJiraQualificationIssuesIndex extends PluginInstallDefault
 {
-    protected $selfUID = JiraIssuesIndex::FIELD__MONTH;
-    protected $selfRepositoryClass = IJiraIssuesIndexRepository::class;
-    protected $selfSection = 'jira_qualification_issues_index';
-    protected $selfName = 'jira qualification issues index';
-    protected $selfItemClass = JiraIssuesIndex::class;
+    protected string $selfUID = JiraIssuesIndex::FIELD__MONTH;
+    protected string $selfRepositoryClass = IJiraIssuesIndexRepository::class;
+    protected string $selfSection = 'jira_qualification_issues_index';
+    protected string $selfName = 'jira qualification issues index';
+    protected string $selfItemClass = JiraIssuesIndex::class;
 }
