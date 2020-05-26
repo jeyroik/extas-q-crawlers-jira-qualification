@@ -7,9 +7,7 @@ use extas\components\quality\crawlers\jira\qualifications\indexes\JiraIssuesInde
 use extas\components\quality\crawlers\jira\JiraClient;
 use extas\components\quality\crawlers\jira\TJiraConfiguration;
 use extas\components\quality\users\User;
-use extas\components\SystemContainer;
 use extas\interfaces\quality\crawlers\ICrawler;
-use extas\interfaces\quality\crawlers\jira\IJiraClient;
 use extas\interfaces\quality\crawlers\jira\IJiraIssue;
 use extas\interfaces\quality\crawlers\jira\IJiraIssueLink;
 use extas\interfaces\quality\crawlers\jira\IJiraSearchJQL;
@@ -23,6 +21,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CrawlerJiraUserQualification
+ *
+ * @method userRepository()
+ * @method jiraIssuesIndexRepository()
  *
  * @package extas\components\quality\crawlers
  * @author jeyroik@gmail.com
@@ -174,7 +175,7 @@ class CrawlerJiraUserQualification extends Crawler
          * @var $userRepo IUserRepository
          * @var $users IUser[]
          */
-        $userRepo = SystemContainer::getItem(IUserRepository::class);
+        $userRepo = $this->userRepository();
         $users = $userRepo->all([IUser::FIELD__NAME => array_keys($assignees)]);
         $usersByNames = [];
         foreach ($users as $user) {
@@ -205,7 +206,7 @@ class CrawlerJiraUserQualification extends Crawler
          * @var $repo IJiraIssuesIndexRepository
          */
         $month = (int) date('Ym');
-        $repo = SystemContainer::getItem(IJiraIssuesIndexRepository::class);
+        $repo = $this->jiraIssuesIndexRepository();
         $index = $repo->one([IJIraIssuesIndex::FIELD__MONTH => $month]);
 
         if (!$index) {

@@ -2,13 +2,13 @@
 namespace extas\components\quality\crawlers\jira\qualifications\indexes;
 
 use extas\components\Item;
-use extas\components\SystemContainer;
 use extas\interfaces\quality\crawlers\jira\IJiraIssue;
 use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJIraIssuesIndex;
-use extas\interfaces\quality\crawlers\jira\qualifications\indexes\IJiraIssuesIndexRepository;
 
 /**
  * Class JiraIssuesIndex
+ *
+ * @method jiraIssuesIndexRepository()
  *
  * @package extas\components\quality\crawlers\jira\qualifications\indexes
  * @author jeyroik@gmail.com
@@ -20,12 +20,8 @@ class JiraIssuesIndex extends Item implements IJIraIssuesIndex
      */
     public function commit(): IJIraIssuesIndex
     {
-        /**
-         * @var $repo IJiraIssuesIndexRepository
-         */
-        $repo = SystemContainer::getItem(IJiraIssuesIndexRepository::class);
         $this->setTimestamp(time());
-        $repo->update($this);
+        $this->jiraIssuesIndexRepository()->update($this);
 
         return $this;
     }

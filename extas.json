@@ -3,7 +3,7 @@
   "package_classes": [
     {
       "class": "extas\\components\\quality\\crawlers\\jira\\qualifications\\indexes\\JiraIssuesIndexRepository",
-      "interface": "extas\\interfaces\\quality\\crawlers\\jira\\qualifications\\indexes\\IJiraIssuesIndexRepository"
+      "interface": "jiraIssuesIndexRepository"
     }
   ],
   "plugins": [
@@ -26,6 +26,16 @@
       "description": "Path to jira qualififcation configuration file for the quality crawler",
       "name": "EXTAS__Q_JIRA_QUALIFIFCATION_PATH",
       "value": ""
+    }
+  ],
+  "extensions": [
+    {
+      "class": "extas\\components\\extensions\\ExtensionRepositoryGet",
+      "interface": "extas\\interfaces\\extensions\\IExtensionRepositoryGet",
+      "subject": "*",
+      "methods": [
+        "jiraIssuesIndexRepository"
+      ]
     }
   ]
 }
